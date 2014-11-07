@@ -58,6 +58,11 @@ def get_file():
 
 
 def update_file():
+    """
+    Update hosts.deny-file with dynamic content
+    This is the main function to run.
+    """
+
     static, _ = get_file()
 
     try:
@@ -67,10 +72,13 @@ def update_file():
         print '\nCould not fetch url:', BLACKLIST_URL
         sys.exit(1)
 
-    content = '\n\n'.join([static, SEPARATOR, dynamic])
-
     with open(FILENAME, 'w') as f:
-        f.write(content)
+        f.write(static)
+        f.write('\n\n')
+        f.write(SEPARATOR)
+        f.write('\n\n')
+        f.write(dynamic)
+        f.write('\n')
 
     added_lines = dynamic.count('\n')
     print 'Number of lines added to %s: %s' % (FILENAME, added_lines)
